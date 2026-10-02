@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex Morgan | Full Stack Developer & UI/UX Specialist</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Inter + Fira Code) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            cyan: '#06b6d4',
+                            blue: '#3b82f6',
+                            purple: '#8b5cf6',
+                            darkBg: '#0f172a',
+                            darkCard: '#1e293b'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Glassmorphism Styles */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .light .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+        
+        .glass-nav {
+            backdrop-filter: blur(16px);
+        }
+
+        /* Typing Effect Caret */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        .light ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06b6d4;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 light:bg-slate-50 light:text-slate-800 font-sans transition-colors duration-300 antialiased selection:bg-cyan-500 selection:text-white">
+
+    <!-- Navigation Bar -->
+    <header class="fixed top-0 left-0 w-full z-50 glass-nav bg-slate-900/80 light:bg-white/80 border-b border-slate-800 light:border-slate-200 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="#home" class="flex items-center space-x-2 text-xl font-bold font-mono tracking-tight group">
+                    <span class="text-cyan-400 group-hover:text-blue-500 transition-colors">&lt;</span>
+                    <span class="text-white light:text-slate-900">AlexMorgan</span>
+                    <span class="text-cyan-400 group-hover:text-blue-500 transition-colors">/&gt;</span>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                    <a href="#home" class="hover:text-cyan-400 transition-colors">Home</a>
+                    <a href="#about" class="hover:text-cyan-400 transition-colors">About</a>
+                    <a href="#skills" class="hover:text-cyan-400 transition-colors">Skills</a>
+                    <a href="#projects" class="hover:text-cyan-400 transition-colors">Projects</a>
+                    <a href="#experience" class="hover:text-cyan-400 transition-colors">Timeline</a>
+                    <a href="#contact" class="hover:text-cyan-400 transition-colors">Contact</a>
+                </nav>
+
+                <!-- Actions: Theme Toggle & Resume -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <button id="themeToggle" class="p-2.5 rounded-xl bg-slate-800 light:bg-slate-100 text-cyan-400 light:text-slate-700 hover:ring-2 hover:ring-cyan-400 transition-all">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    </button>
+                    <a href="#contact" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold text-sm hover:shadow-lg hover:shadow-cyan-500/25 transition-all transform hover:-translate-y-0.5">
+                        Let's Talk
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="flex md:hidden items-center space-x-3">
+                    <button id="mobileThemeToggle" class="p-2 rounded-lg bg-slate-800 light:bg-slate-100 text-cyan-400">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    </button>
+                    <button id="menuBtn" class="text-slate-300 light:text-slate-700 p-2 text-2xl">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-slate-900/95 light:bg-white/95 border-b border-slate-800 px-4 pt-2 pb-6 space-y-3">
+            <a href="#home" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800">Home</a>
+            <a href="#about" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800">About</a>
+            <a href="#skills" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800">Skills</a>
+            <a href="#projects" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800">Projects</a>
+            <a href="#experience" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800">Timeline</a>
+            <a href="#contact" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800">Contact</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center pt-24 pb-16 relative overflow-hidden">
+        <!-- Background Decorative Glows -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-10 right-10 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Text Area -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono">
+                        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                        <span>Available for Freelance & Full-time Roles</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white light:text-slate-900 leading-tight">
+                        Hi, I'm <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500">Alex Morgan</span>
+                    </h1>
+
+                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-300 light:text-slate-700 h-10">
+                        I am a <span id="typing-element" class="text-cyan-400 font-mono typing-cursor"></span>
+                    </h2>
+
+                    <p class="text-slate-400 light:text-slate-600 text-lg max-w-xl leading-relaxed">
+                        Crafting high-performance web applications, intuitive user interfaces, and robust backend architectures with modern web technologies.
+                    </p>
+
+                    <!-- Buttons & Socials -->
+                    <div class="flex flex-wrap items-center gap-4 pt-4">
+                        <a href="#projects" class="px-7 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold shadow-lg hover:shadow-cyan-500/30 hover:scale-105 transition-all">
+                            View My Work <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                        </a>
+                        <button onclick="downloadResume()" class="px-7 py-3.5 rounded-xl glass-panel text-white light:text-slate-800 font-semibold border border-slate-700 hover:border-cyan-400 hover:text-cyan-400 transition-all">
+                            <i class="fas fa-download mr-2"></i> Resume
+                        </button>
+                    </div>
+
+                    <div class="flex items-center space-x-5 pt-6 text-xl text-slate-400 light:text-slate-600">
+                        <a href="#" class="hover:text-cyan-400 transition-colors"><i class="fab fa-github"></i></a>
+                        <a href="#" class="hover:text-cyan-400 transition-colors"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="hover:text-cyan-400 transition-colors"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="hover:text-cyan-400 transition-colors"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <!-- Avatar/Illustration -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-cyan-500 to-purple-600 rounded-3xl rotate-6 blur-md opacity-40 group-hover:rotate-12 transition-transform"></div>
+                        <div class="relative w-full h-full glass-panel rounded-3xl overflow-hidden border border-slate-700 p-3 shadow-2xl">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop" alt="Alex Morgan Portrait" class="w-full h-full object-cover rounded-2xl filter grayscale hover:grayscale-0 transition-all duration-500">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about" class="py-20 bg-slate-800/50 light:bg-slate-100/80 border-y border-slate-800 light:border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-cyan-400 font-mono text-sm tracking-widest uppercase">Get To Know Me</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white light:text-slate-900 mt-2">About Me</h2>
+                <div class="w-16 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-bold text-white light:text-slate-800">Passionate Developer & Digital Architect</h3>
+                    <p class="text-slate-400 light:text-slate-600 leading-relaxed">
+                        With over 5 years of experience in modern software design and development, I specialize in transforming complex problems into elegant, scalable web applications. My approach combines pixel-perfect frontend engineering with secure, scalable backend architecture.
+                    </p>
+                    <p class="text-slate-400 light:text-slate-600 leading-relaxed">
+                        I thrive in dynamic environments, staying at the forefront of modern web technologies, AI integrations, and responsive user experiences.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-4 pt-2">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-cyan-400 text-lg"></i>
+                            <span class="text-sm font-medium text-slate-300 light:text-slate-700">Clean & Modular Code</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-cyan-400 text-lg"></i>
+                            <span class="text-sm font-medium text-slate-300 light:text-slate-700">Responsive First Design</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-cyan-400 text-lg"></i>
+                            <span class="text-sm font-medium text-slate-300 light:text-slate-700">API Architecture</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-cyan-400 text-lg"></i>
+                            <span class="text-sm font-medium text-slate-300 light:text-slate-700">Performance Tuned</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="glass-panel p-6 rounded-2xl text-center border border-slate-700/60 hover:border-cyan-500/50 transition-colors">
+                        <div class="text-4xl font-extrabold text-cyan-400 font-mono mb-2">5+</div>
+                        <p class="text-sm text-slate-400 light:text-slate-600 font-medium">Years Experience</p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl text-center border border-slate-700/60 hover:border-cyan-500/50 transition-colors">
+                        <div class="text-4xl font-extrabold text-blue-500 font-mono mb-2">40+</div>
+                        <p class="text-sm text-slate-400 light:text-slate-600 font-medium">Projects Completed</p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl text-center border border-slate-700/60 hover:border-cyan-500/50 transition-colors">
+                        <div class="text-4xl font-extrabold text-purple-500 font-mono mb-2">25+</div>
+                        <p class="text-sm text-slate-400 light:text-slate-600 font-medium">Happy Clients</p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl text-center border border-slate-700/60 hover:border-cyan-500/50 transition-colors">
+                        <div class="text-4xl font-extrabold text-emerald-400 font-mono mb-2">99%</div>
+                        <p class="text-sm text-slate-400 light:text-slate-600 font-medium">On-Time Delivery</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills & Technologies -->
+    <section id="skills" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-cyan-400 font-mono text-sm tracking-widest uppercase">My Expertise</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white light:text-slate-900 mt-2">Skills & Technologies</h2>
+                <div class="w-16 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Frontend Card -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 hover:border-cyan-500/50 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white light:text-slate-900 mb-4">Frontend</h3>
+                    <ul class="space-y-3 text-sm text-slate-400 light:text-slate-600">
+                        <li class="flex justify-between"><span>React / Next.js</span><span class="text-cyan-400 font-mono">92%</span></li>
+                        <li class="flex justify-between"><span>TypeScript</span><span class="text-cyan-400 font-mono">88%</span></li>
+                        <li class="flex justify-between"><span>Tailwind CSS</span><span class="text-cyan-400 font-mono">95%</span></li>
+                        <li class="flex justify-between"><span>Vue.js</span><span class="text-cyan-400 font-mono">80%</span></li>
+                    </ul>
+                </div>
+
+                <!-- Backend Card -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 hover:border-blue-500/50 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white light:text-slate-900 mb-4">Backend</h3>
+                    <ul class="space-y-3 text-sm text-slate-400 light:text-slate-600">
+                        <li class="flex justify-between"><span>Node.js / Express</span><span class="text-blue-500 font-mono">90%</span></li>
+                        <li class="flex justify-between"><span>Python / Django</span><span class="text-blue-500 font-mono">85%</span></li>
+                        <li class="flex justify-between"><span>PostgreSQL / MongoDB</span><span class="text-blue-500 font-mono">87%</span></li>
+                        <li class="flex justify-between"><span>GraphQL / REST API</span><span class="text-blue-500 font-mono">92%</span></li>
+                    </ul>
+                </div>
+
+                <!-- Tools & DevOps Card -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 hover:border-purple-500/50 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white light:text-slate-900 mb-4">DevOps & Cloud</h3>
+                    <ul class="space-y-3 text-sm text-slate-400 light:text-slate-600">
+                        <li class="flex justify-between"><span>Docker / Kubernetes</span><span class="text-purple-500 font-mono">78%</span></li>
+                        <li class="flex justify-between"><span>AWS / Vercel</span><span class="text-purple-500 font-mono">85%</span></li>
+                        <li class="flex justify-between"><span>Git / GitHub Actions</span><span class="text-purple-500 font-mono">92%</span></li>
+                        <li class="flex justify-between"><span>CI/CD Pipelines</span><span class="text-purple-500 font-mono">82%</span></li>
+                    </ul>
+                </div>
+
+                <!-- UI/UX Card -->
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 hover:border-emerald-500/50 transition-all group">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white light:text-slate-900 mb-4">UI/UX Design</h3>
+                    <ul class="space-y-3 text-sm text-slate-400 light:text-slate-600">
+                        <li class="flex justify-between"><span>Figma / Wireframing</span><span class="text-emerald-400 font-mono">90%</span></li>
+                        <li class="flex justify-between"><span>Design Systems</span><span class="text-emerald-400 font-mono">88%</span></li>
+                        <li class="flex justify-between"><span>Prototyping</span><span class="text-emerald-400 font-mono">85%</span></li>
+                        <li class="flex justify-between"><span>User Research</span><span class="text-emerald-400 font-mono">80%</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Projects Showcase -->
+    <section id="projects" class="py-20 bg-slate-800/50 light:bg-slate-100/80 border-y border-slate-800 light:border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-cyan-400 font-mono text-sm tracking-widest uppercase">Portfolio</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white light:text-slate-900 mt-2">Featured Projects</h2>
+                <div class="w-16 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap justify-center gap-3 mb-12">
+                <button onclick="filterProjects('all')" class="filter-btn active px-5 py-2 rounded-xl bg-cyan-500 text-white text-sm font-medium transition-all">All</button>
+                <button onclick="filterProjects('web')" class="filter-btn px-5 py-2 rounded-xl bg-slate-800 light:bg-slate-200 text-slate-300 light:text-slate-700 hover:text-cyan-400 text-sm font-medium transition-all">Web Apps</button>
+                <button onclick="filterProjects('ui')" class="filter-btn px-5 py-2 rounded-xl bg-slate-800 light:bg-slate-200 text-slate-300 light:text-slate-700 hover:text-cyan-400 text-sm font-medium transition-all">UI/UX Design</button>
+                <button onclick="filterProjects('mobile')" class="filter-btn px-5 py-2 rounded-xl bg-slate-800 light:bg-slate-200 text-slate-300 light:text-slate-700 hover:text-cyan-400 text-sm font-medium transition-all">Mobile</button>
+            </div>
+
+            <!-- Projects Grid -->
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project Card 1 -->
+                <div class="project-card web glass-panel rounded-2xl overflow-hidden border border-slate-800 hover:border-cyan-500/50 transition-all flex flex-col group">
+                    <div class="relative overflow-hidden h-52">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="SaaS Dashboard">
+                        <div class="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-4">
+                            <button onclick="openProjectModal('AI Dashboard Platform', 'Full stack AI dashboard with real-time analytics, LLM integrations, and custom reports.', 'React, Next.js, Node.js, Tailwind', 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200')" class="w-10 h-10 rounded-full bg-cyan-500 text-white flex items-center justify-center hover:scale-110 transition-transform">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <a href="#" class="w-10 h-10 rounded-full bg-slate-800 text-white flex items-center justify-center hover:scale-110 transition-transform">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-mono text-cyan-400 uppercase">Web App</span>
+                            <h3 class="text-lg font-bold text-white light:text-slate-900 mt-1 mb-2">AI Dashboard Platform</h3>
+                            <p class="text-slate-400 light:text-slate-600 text-sm line-clamp-2">Real-time data visualization dashboard with artificial intelligence predictive insights.</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800 light:border-slate-200">
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800 light:bg-slate-200 text-xs font-mono text-slate-300 light:text-slate-700">React</span>
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800 light:bg-slate-200 text-xs font-mono text-slate-300 light:text-slate-700">Tailwind</span>
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800 light:bg-slate-200 text-xs font-mono text-slate-300 light:text-slate-700">ChartJS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 2 -->
+                <div class="project-card ui glass-panel rounded-2xl overflow-hidden border border-slate-800 hover:border-cyan-500/50 transition-all flex flex-col group">
+                    <div class="relative overflow-hidden h-52">
+                        <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Fintech UI Design">
+                        <div class="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-4">
+                            <button onclick="openProjectModal('Fintech Mobile Experience', 'Sleek dark-mode banking application UI design focusing on micro-interactions.', 'Figma, Prototyping, Design Systems', 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=1200')" class="w-10 h-10 rounded-full bg-cyan-500 text-white flex items-center justify-center hover:scale-110 transition-transform">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <a href="#" class="w-10 h-10 rounded-full bg-slate-800 text-white flex items-center justify-center hover:scale-110 transition-transform">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-mono text-purple-400 uppercase">UI/UX Design</span>
+                            <h3 class="text-lg font-bold text-white light:text-slate-900 mt-1 mb-2">Fintech Mobile Experience</h3>
+                            <p class="text-slate-400 light:text-slate-600 text-sm line-clamp-2">Complete mobile banking interface design system with high usability scores.</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800 light:border-slate-200">
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800 light:bg-slate-200 text-xs font-mono text-slate-300 light:text-slate-700">Figma</span>
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800 light:bg-slate-200 text-xs font-mono text-slate-300 light:text-slate-700">UI System</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 3 -->
+                <div class="project-card mobile glass-panel rounded-2xl overflow-hidden border border-slate-800 hover:border-cyan-500/50 transition-all flex flex-col group">
+                    <div class="relative overflow-hidden h-52">
+                        <img src="https://images.unsplash.com/photo-1526498460520-4c246339dccb?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="E-Commerce App">
+                        <div class="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-4">
+                            <button onclick="openProjectModal('Cross-Platform Fitness Tracker', 'Mobile health app built with React Native and integrated with smart sensors.', 'React Native, GraphQL, Node.js', 'https://images.unsplash.com/photo-1526498460520-4c246339dccb?q=80&w=1200')" class="w-10 h-10 rounded-full bg-cyan-500 text-white flex items-center justify-center hover:scale-110 transition-transform">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <a href="#" class="w-10 h-10 rounded-full bg-slate-800 text-white flex items-center justify-center hover:scale-110 transition-transform">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-mono text-emerald-400 uppercase">Mobile</span>
+                            <h3 class="text-lg font-bold text-white light:text-slate-900 mt-1 mb-2">Fitness Tracking App</h3>
+                            <p class="text-slate-400 light:text-slate-600 text-sm line-clamp-2">Cross-platform health and workout tracking application with real-time sync.</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-slate-800 light:border-slate-200">
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800 light:bg-slate-200 text-xs font-mono text-slate-300 light:text-slate-700">React Native</span>
+                            <span class="px-2.5 py-1 rounded-md bg-slate-800 light:bg-slate-200 text-xs font-mono text-slate-300 light:text-slate-700">GraphQL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience & Education Timeline -->
+    <section id="experience" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-cyan-400 font-mono text-sm tracking-widest uppercase">My Journey</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white light:text-slate-900 mt-2">Experience & Education</h2>
+                <div class="w-16 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="relative max-w-4xl mx-auto">
+                <!-- Vertical Line -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-slate-800 light:bg-slate-300 hidden md:block"></div>
+
+                <!-- Timeline Item 1 -->
+                <div class="relative mb-12 md:mb-16 flex flex-col md:flex-row items-center">
+                    <div class="w-full md:w-1/2 md:pr-12 md:text-right mb-4 md:mb-0">
+                        <div class="glass-panel p-6 rounded-2xl border border-slate-800 hover:border-cyan-500/50 transition-all">
+                            <span class="text-xs font-mono text-cyan-400">2022 - Present</span>
+                            <h3 class="text-lg font-bold text-white light:text-slate-900 mt-1">Senior Full Stack Developer</h3>
+                            <p class="text-sm font-medium text-slate-400 light:text-slate-600 mb-3">TechCorp Solutions Inc.</p>
+                            <p class="text-sm text-slate-400 light:text-slate-600">Leading frontend design architecture, mentoring junior developers, and optimizing cloud APIs.</p>
+                        </div>
+                    </div>
+                    <div class="absolute left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-slate-900 border-4 border-cyan-400 flex items-center justify-center text-xs text-cyan-400 hidden md:flex">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="w-full md:w-1/2 md:pl-12"></div>
+                </div>
+
+                <!-- Timeline Item 2 -->
+                <div class="relative mb-12 md:mb-16 flex flex-col md:flex-row items-center">
+                    <div class="w-full md:w-1/2 md:pr-12"></div>
+                    <div class="absolute left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-slate-900 border-4 border-blue-500 flex items-center justify-center text-xs text-blue-500 hidden md:flex">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="w-full md:w-1/2 md:pl-12 mb-4 md:mb-0">
+                        <div class="glass-panel p-6 rounded-2xl border border-slate-800 hover:border-blue-500/50 transition-all">
+                            <span class="text-xs font-mono text-blue-400">2020 - 2022</span>
+                            <h3 class="text-lg font-bold text-white light:text-slate-900 mt-1">Frontend Engineer</h3>
+                            <p class="text-sm font-medium text-slate-400 light:text-slate-600 mb-3">Nexus Web Studio</p>
+                            <p class="text-sm text-slate-400 light:text-slate-600">Built responsive React applications, developed UI design components, and integrated backend APIs.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 3 -->
+                <div class="relative flex flex-col md:flex-row items-center">
+                    <div class="w-full md:w-1/2 md:pr-12 md:text-right mb-4 md:mb-0">
+                        <div class="glass-panel p-6 rounded-2xl border border-slate-800 hover:border-purple-500/50 transition-all">
+                            <span class="text-xs font-mono text-purple-400">2016 - 2020</span>
+                            <h3 class="text-lg font-bold text-white light:text-slate-900 mt-1">B.S. in Computer Science</h3>
+                            <p class="text-sm font-medium text-slate-400 light:text-slate-600 mb-3">State University of Technology</p>
+                            <p class="text-sm text-slate-400 light:text-slate-600">Graduated with High Honors. Specialization in Software Engineering and Human-Computer Interaction.</p>
+                        </div>
+                    </div>
+                    <div class="absolute left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-slate-900 border-4 border-purple-500 flex items-center justify-center text-xs text-purple-500 hidden md:flex">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="w-full md:w-1/2 md:pl-12"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-slate-800/50 light:bg-slate-100/80 border-t border-slate-800 light:border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-cyan-400 font-mono text-sm tracking-widest uppercase">Get In Touch</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white light:text-slate-900 mt-2">Let's Work Together</h2>
+                <div class="w-16 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <!-- Info Cards -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="glass-panel p-6 rounded-2xl border border-slate-800 flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-xl">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs uppercase font-mono text-slate-400 light:text-slate-500">Email Me</h4>
+                            <p class="text-white light:text-slate-900 font-semibold">alex.morgan@example.com</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-6 rounded-2xl border border-slate-800 flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-xl">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs uppercase font-mono text-slate-400 light:text-slate-500">Location</h4>
+                            <p class="text-white light:text-slate-900 font-semibold">San Francisco, CA (Remote Available)</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-6 rounded-2xl border border-slate-800 flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-xl">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xs uppercase font-mono text-slate-400 light:text-slate-500">Socials</h4>
+                            <div class="flex space-x-4 text-cyan-400 mt-1">
+                                <a href="#" class="hover:underline">LinkedIn</a>
+                                <a href="#" class="hover:underline">GitHub</a>
+                                <a href="#" class="hover:underline">Twitter</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <div class="lg:col-span-7">
+                    <form id="contactForm" onsubmit="handleContactSubmit(event)" class="glass-panel p-8 rounded-2xl border border-slate-800 space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs font-mono uppercase text-slate-400 mb-2">Your Name *</label>
+                                <input type="text" required class="w-full px-4 py-3 rounded-xl bg-slate-900/60 light:bg-white border border-slate-700 light:border-slate-300 text-white light:text-slate-900 focus:outline-none focus:border-cyan-400 transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-mono uppercase text-slate-400 mb-2">Your Email *</label>
+                                <input type="email" required class="w-full px-4 py-3 rounded-xl bg-slate-900/60 light:bg-white border border-slate-700 light:border-slate-300 text-white light:text-slate-900 focus:outline-none focus:border-cyan-400 transition-colors">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-slate-400 mb-2">Subject</label>
+                            <input type="text" class="w-full px-4 py-3 rounded-xl bg-slate-900/60 light:bg-white border border-slate-700 light:border-slate-300 text-white light:text-slate-900 focus:outline-none focus:border-cyan-400 transition-colors">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-mono uppercase text-slate-400 mb-2">Message *</label>
+                            <textarea rows="4" required class="w-full px-4 py-3 rounded-xl bg-slate-900/60 light:bg-white border border-slate-700 light:border-slate-300 text-white light:text-slate-900 focus:outline-none focus:border-cyan-400 transition-colors"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold hover:shadow-lg hover:shadow-cyan-500/25 transition-all">
+                            Send Message <i class="fas fa-paper-plane ml-2"></i>
+                        </button>
+
+                        <div id="formAlert" class="hidden p-4 rounded-xl bg-emerald-500/20 border border-emerald-500 text-emerald-400 text-sm text-center">
+                            Message sent successfully! I will reply as soon as possible.
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 bg-slate-900 light:bg-white border-t border-slate-800 light:border-slate-200 text-center text-sm text-slate-500">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>&copy; 2026 Alex Morgan. Built with Tailwind CSS and passion.</p>
+        </div>
+    </footer>
+
+    <!-- Project Detail Modal -->
+    <div id="projectModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <div class="glass-panel bg-slate-900 light:bg-white rounded-2xl max-w-2xl w-full p-6 relative border border-slate-700 shadow-2xl">
+            <button onclick="closeProjectModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl">
+                <i class="fas fa-times"></i>
+            </button>
+            <img id="modalImg" src="" class="w-full h-64 object-cover rounded-xl mb-4">
+            <h3 id="modalTitle" class="text-2xl font-bold text-white light:text-slate-900 mb-2"></h3>
+            <p id="modalDesc" class="text-slate-400 light:text-slate-600 text-sm mb-4 leading-relaxed"></p>
+            <div id="modalTags" class="text-xs font-mono text-cyan-400 mb-6"></div>
+            <div class="flex justify-end space-x-3">
+                <button onclick="closeProjectModal()" class="px-5 py-2 rounded-xl bg-slate-800 text-white text-sm">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Typing Effect Logic
+        const words = ["Full Stack Developer", "UI/UX Designer", "Creative Problem Solver"];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.getElementById('typing-element');
+
+        function typeEffect() {
+            const currentWord = words[wordIndex];
+            if (isDeleting) {
+                typingElement.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 50 : 100;
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                typeSpeed = 2000; // Pause at end
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(typeEffect, typeSpeed);
+        }
+        typeEffect();
+
+        // Dark/Light Theme Toggle
+        const themeBtn = document.getElementById('themeToggle');
+        const mobileThemeBtn = document.getElementById('mobileThemeToggle');
+
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            document.documentElement.classList.toggle('light');
+        }
+
+        themeBtn.addEventListener('click', toggleTheme);
+        mobileThemeBtn.addEventListener('click', toggleTheme);
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Filter Projects Logic
+        function filterProjects(category) {
+            const cards = document.querySelectorAll('.project-card');
+            const btns = document.querySelectorAll('.filter-btn');
+
+            btns.forEach(btn => {
+                btn.classList.remove('bg-cyan-500', 'text-white');
+                btn.classList.add('bg-slate-800', 'text-slate-300');
+            });
+            event.target.classList.add('bg-cyan-500', 'text-white');
+
+            cards.forEach(card => {
+                if (category === 'all' || card.classList.contains(category)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Modal Functions
+        function openProjectModal(title, desc, tags, img) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalDesc').innerText = desc;
+            document.getElementById('modalTags').innerText = "Tech Stack: " + tags;
+            document.getElementById('modalImg').src = img;
+            document.getElementById('projectModal').classList.remove('hidden');
+        }
+
+        function closeProjectModal() {
+            document.getElementById('projectModal').classList.add('hidden');
+        }
+
+        // Resume Download Simulation
+        function downloadResume() {
+            alert('Resume download started!');
+        }
+
+        // Contact Form Simulation
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            const alertBox = document.getElementById('formAlert');
+            alertBox.classList.remove('hidden');
+            e.target.reset();
+            setTimeout(() => alertBox.classList.add('hidden'), 4000);
+        }
+    </script>
+</body>
+</html>
